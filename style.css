@@ -174,7 +174,7 @@ body {
   /* justify-content: center; */
 }
 
-.white {
+.keys.white {
   background: white;
   box-sizing: border-box;
   border-width: 0 0.1rem 0.3rem;
@@ -189,7 +189,7 @@ body {
   border-width: 0 0.105rem 0.05rem;
 }
 
-.black {
+.keys.black {
   background: rgb(48, 48, 48);
   height: 58%;
   width: var(--black-key-width);
@@ -208,6 +208,7 @@ body {
 .keys {
   box-sizing: border-box;
   flex: 0 0 auto;
+  margin: 0;
 }
 
 .keys[data-key='f3'],
