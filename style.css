@@ -209,6 +209,7 @@ body {
   box-sizing: border-box;
   flex: 0 0 auto;
   margin: 0;
+  padding: 0;
 }
 
 .keys[data-key='f3'],
