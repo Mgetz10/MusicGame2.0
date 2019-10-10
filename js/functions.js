@@ -86,6 +86,7 @@ function placeNote(note, type) {
 }
 
 function freePlay(e) {
+  console.log(e.type);
   const key = clickOrKey(e, 'keydown');
   if (!key) return;
   if (alreadyPlaying(key)) return;
