@@ -14,24 +14,3 @@ keys.forEach(key => key.addEventListener('touchcancel', handleKeyUp));
 keys.forEach(key => key.addEventListener('mouseup', handleKeyUp));
 keys.forEach(key => key.addEventListener('mouseout', handleKeyUp));
 
-// navigator.requestMIDIAccess()
-//   .then(onMIDISuccess, onMIDIFailure);
-
-// function onMIDISuccess(midiAccess) {
-//   for (var input of midiAccess.inputs.values()) {
-//     input.onmidimessage = getMIDIMessage;
-//   }
-// }
-
-// function getMIDIMessage(midiMessage) {
-//   if(midiMessage.data[0] !== 248){
-//     switch(midiMessage.data[1]){
-//       case 48:
-//         playKey("c4")
-//     }
-//     console.log(midiMessage.data);
-//   }
-// }
-// function onMIDIFailure() {
-//   console.log('Could not access your MIDI devices.');
-// }

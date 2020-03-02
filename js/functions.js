@@ -19,9 +19,10 @@ function getElementByDataset(
 }
 
 function clickOrKey(e, keyUpOrDown) {
-  return e.type === keyUpOrDown
-    ? notesObj[keyCodes[`${e.keyCode}`]()].onStaff
-    : e.target;
+  if (e.type === keyUpOrDown) {
+    const note = keyCodes[`${e.keyCode}`]
+    if (note) return notesObj[note()].onKeyboard
+  } else return e.target
 }
 
 function alreadyPlaying(key) {
@@ -37,10 +38,9 @@ function removeAccidental(note) {
   else return note;
 }
 
-function handleKeyUp(e) {
-  const key = clickOrKey(e, 'keyup');
+function handleKeyUp(e, inputKey) {
+  const key = inputKey ? inputKey : clickOrKey(e, 'keyup');
   if (!key) return;
-
   const note = key.dataset.key;
   const noteLocation = notesObj[note].onStaff;
   const noteToRemove = getElementByDataset('note', note, '.note', noteLocation);
@@ -81,9 +81,15 @@ function placeNote(note, type) {
   notesObj[note].onStaff.innerHTML += noteHTML;
 }
 
+function playNote(note) {
+  playKey(note);
+  placeNote(note, 'wholenote');
+  addClass(notesObj[note].onKeyboard, 'playing');
+}
+
+
 function freePlay(e) {
   const key = clickOrKey(e, 'keydown');
-  console.log(e.type);
   if (!key) return;
   if (alreadyPlaying(key)) return;
 
