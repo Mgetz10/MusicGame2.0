@@ -20,7 +20,7 @@ function getElementByDataset(
 
 function clickOrKey(e, keyUpOrDown) {
   return e.type === keyUpOrDown
-    ? getElementByDataset('keycode', e.keyCode, '.keys')
+    ? notesObj[keyCodes[`${e.keyCode}`]()].onStaff
     : e.target;
 }
 
@@ -42,15 +42,13 @@ function handleKeyUp(e) {
   if (!key) return;
 
   const note = key.dataset.key;
-  const noteQuery = removeAccidental(note);
-  const noteLocation = getElementByDataset('key', noteQuery, '.staff-line');
+  const noteLocation = notesObj[note].onStaff;
   const noteToRemove = getElementByDataset('note', note, '.note', noteLocation);
   if (!noteToRemove) return;
 
   noteLocation.removeChild(noteToRemove);
 
   removeClass(key, 'playing');
-  // key.classList.remove('playing');
   keydown = false;
 }
 
@@ -78,16 +76,14 @@ function getNoteImg(note, type) {
 }
 
 function placeNote(note, type) {
-  const noteQuery = removeAccidental(note);
   const noteToPlace = getNoteImg(note, type);
   const noteHTML = `<div class='note' data-note="${note}">${noteToPlace}</div>`;
-  const noteLocation = getElementByDataset('key', noteQuery, '.staff-line');
-  noteLocation.innerHTML += noteHTML;
+  notesObj[note].onStaff.innerHTML += noteHTML;
 }
 
 function freePlay(e) {
-  console.log(e.type);
   const key = clickOrKey(e, 'keydown');
+  console.log(e.type);
   if (!key) return;
   if (alreadyPlaying(key)) return;
 

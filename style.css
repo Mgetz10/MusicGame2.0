@@ -35,7 +35,7 @@ body {
 .bar {
   height: 80%;
   width: 80%;
-  background: lightblue;
+  /* background: lightblue; */
   display: flex;
   flex-direction: column;
   justify-content: center;
