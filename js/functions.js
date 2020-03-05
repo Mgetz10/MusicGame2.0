@@ -1,30 +1,3 @@
-function alterClass(addOrRemove) {
-  return (element, classToRemove) =>
-    addOrRemove === 'add'
-      ? element.classList.add(classToRemove)
-      : element.classList.remove(classToRemove);
-}
-const addClass = alterClass('add');
-const removeClass = alterClass('remove');
-
-function getElementByDataset(
-  data,
-  searchString,
-  specifier = '',
-  elementToSearch = document
-) {
-  return elementToSearch.querySelector(
-    `${specifier}[data-${data}="${searchString}"]`
-  );
-}
-
-function clickOrKey(e, keyUpOrDown) {
-  if (e.type === keyUpOrDown) {
-    const note = keyCodes[`${e.keyCode}`]
-    if (note) return notesObj[note()].onKeyboard
-  } else return e.target
-}
-
 function alreadyPlaying(key) {
   return key.classList.contains('playing');
 }
@@ -38,17 +11,14 @@ function removeAccidental(note) {
   else return note;
 }
 
-function handleKeyUp(e, inputKey) {
-  const key = inputKey ? inputKey : clickOrKey(e, 'keyup');
-  if (!key) return;
-  const note = key.dataset.key;
-  const noteLocation = notesObj[note].onStaff;
-  const noteToRemove = getElementByDataset('note', note, '.note', noteLocation);
+function removeNote(key) {
+  const noteLocation = key.onStaff;
+  const noteToRemove = getElementByDataset('note', key.name, '.note', noteLocation);
   if (!noteToRemove) return;
 
   noteLocation.removeChild(noteToRemove);
 
-  removeClass(key, 'playing');
+  removeClass(key.onKeyboard, 'playing');
   keydown = false;
 }
 
@@ -76,25 +46,21 @@ function getNoteImg(note, type) {
 }
 
 function placeNote(note, type) {
-  const noteToPlace = getNoteImg(note, type);
-  const noteHTML = `<div class='note' data-note="${note}">${noteToPlace}</div>`;
-  notesObj[note].onStaff.innerHTML += noteHTML;
+  if (!note.onStaff) {
+    console.warn('range not yet coded')
+    return
+  }
+  const noteToPlace = getNoteImg(note.name, type);
+  const noteHTML = `<div class='note' data-note="${note.name}">${noteToPlace}</div>`;
+  note.onStaff.innerHTML += noteHTML;
 }
 
 function playNote(note) {
-  playKey(note);
+  playKey(note.name);
   placeNote(note, 'wholenote');
-  addClass(notesObj[note].onKeyboard, 'playing');
-}
-
-
-function freePlay(e) {
-  const key = clickOrKey(e, 'keydown');
-  if (!key) return;
-  if (alreadyPlaying(key)) return;
-
-  const note = key.dataset.key;
-  playKey(note);
-  placeNote(note, 'wholenote');
-  addClass(key, 'playing');
+  if (!note.onKeyboard) {
+    console.warn('keyboard range not yet coded')
+    return
+  }
+  addClass(note.onKeyboard, 'playing');
 }

@@ -1,0 +1,271 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.staff {
+  width: 100%;
+  height: 65%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.staff .bar {
+  height: 80%;
+  width: 80%;
+  /* background: lightblue; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  /* .staff-line[data-key='e5'],  */
+  /* .staff-line[data-key='e5'] {
+  transform: translateY(-100%);
+  border-style: none none solid none;
+  border-width: 0.2rem;
+  background: lightcoral;
+} */
+  /* .staff-line[data-key='d5'] {
+  transform: translateY(-150%);
+  background: lightslategray;
+} */
+  /* .staff-line[data-key='c5'] {
+  transform: translateY(-200%);
+  border-style: none none solid none;
+  border-width: 0.2rem;
+  background: limegreen;
+} */
+}
+
+.staff .bar .treble-clef {
+  font-size: 17rem;
+  position: absolute;
+  top: 32%;
+  /* color: #5b9c41; */
+  /* text-shadow: 0 0 3px #0000007a; */
+}
+
+.staff .bar .staff-line {
+  height: 2rem;
+  /* margin: -16px 0 0; */
+  /* display: flex; */
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  /* background: green; */
+  /* border-style: solid none solid none;
+      border-width: 0.2rem; */
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  opacity: 0.8;
+  display: block;
+  width: 100%;
+  margin-top: calc(2rem / -2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 0.2rem;
+}
+
+.staff .bar .staff-line .note {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 61px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.staff .bar .staff-line .note img {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+}
+
+.staff .bar .staff-line .note .wholenote {
+  height: 100%;
+}
+
+.staff .bar .staff-line .note .halfnote {
+  height: 507%;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  top: 156%;
+  position: relative;
+  margin-left: -22%;
+}
+
+.staff .bar .staff-line .note .quarternote {
+  height: 481%;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  top: 156%;
+  position: relative;
+  margin-left: -22%;
+}
+
+.staff .bar .staff-line .note .accidental {
+  position: relative;
+  height: 193%;
+  display: block;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  top: 50%;
+  margin-left: -25%;
+}
+
+.staff .bar .staff-line[data-key='g5'],
+.staff .bar .staff-line[data-key='e5'],
+.staff .bar .staff-line[data-key='c5'],
+.staff .bar .staff-line[data-key='a4'],
+.staff .bar .staff-line[data-key='f4'] {
+  border-style: none none solid none;
+  border-width: 0.2rem;
+  z-index: 1;
+  padding-bottom: 0;
+  /* background: pink; */
+}
+
+.staff .bar .staff-line:nth-child(2) {
+  margin-top: 0;
+  /* background: blue; */
+}
+
+.staff .bar [data-ledger] .note {
+  min-width: 133px;
+}
+
+.staff .bar [data-ledger] .note::before {
+  position: relative;
+  content: '';
+  right: 0%;
+  border-top: 0.2rem solid;
+  width: 3.1rem;
+  margin-right: -26%;
+  margin-top: 9%;
+}
+
+.staff .bar:nth-child(1) .staff-line {
+  padding-left: 20%;
+}
+
+/*6.67% = 100% no overflow*/
+/*11.1% = ocatave no overflow*/
+.keyboard-section {
+  height: 35%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.keyboard-section .keyboard {
+  /* background: blue; */
+  height: 80%;
+  width: 100%;
+  overflow: scroll;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* justify-content: center; */
+}
+
+.keyboard-section .keyboard .keys {
+  border-color: gray;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.keyboard-section .keyboard .keys.white {
+  background: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-width: 0 0.1rem 0.3rem;
+  border-style: none solid solid;
+  width: 11.1%;
+  margin-left: calc(calc(11.1% / 2) / -2);
+  height: 99%;
+  border-color: #c7c7c7;
+}
+
+.keyboard-section .keyboard .white.playing {
+  margin-top: 0.1rem;
+  border-width: 0 0.105rem 0.05rem;
+}
+
+.keyboard-section .keyboard .keys.black {
+  background: #303030;
+  height: 58%;
+  width: calc(11.1% / 2);
+  z-index: 1;
+  margin-left: calc(calc(11.1% / 2) / -2);
+  border-width: 0 0.4rem 0.5rem;
+  border-style: none solid solid;
+  border-color: black #1f1f1f;
+}
+
+.keyboard-section .keyboard .black.playing {
+  border-color: black #181818;
+  border-width: 0 0.4rem 0.3rem;
+}
+
+.keyboard-section .keyboard .keys[data-key='f3'],
+.keyboard-section .keyboard .keys[data-key='c4'],
+.keyboard-section .keyboard .keys[data-key='f4'],
+.keyboard-section .keyboard .keys[data-key='c5'],
+.keyboard-section .keyboard .keys[data-key='f5'] {
+  margin-left: 0;
+}
+/*# sourceMappingURL=style.css.map */
