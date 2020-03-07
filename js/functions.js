@@ -48,3 +48,7 @@ function removeFromStaff(note) {
   const noteToRemove = getElementByDataset('note', note.name, '.note', noteLocation);
   return noteLocation.removeChild(noteToRemove);
 }
+
+function alreadyPlaying(key) {
+  return key.playing
+}

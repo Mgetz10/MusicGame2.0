@@ -9,7 +9,7 @@ keys.forEach(key => key.addEventListener('mouseout', handleTouchUp));
 
 function handleTouch(e) {
   const note = getNoteFromTarget(e.target)
-  noteOn(note)
+  if (note.playing) noteOn(note)
 }
 
 function handleTouchUp(e) {

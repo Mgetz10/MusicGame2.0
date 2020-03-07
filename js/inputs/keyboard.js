@@ -64,7 +64,7 @@ function parseKeyboard(e) {
   if (!keyCodeResult) return
   else if (!octaveShift) {
     const note = noteLookup[keyCodeResult()]
-    if (alreadyPlaying(note)) return
+    if (note.playing) return
     noteOn(note)
   } else {
     keyCodeResult()
@@ -77,8 +77,4 @@ function handleKeyUp(e) {
   if (!keyCodeResult || octaveShift) return
   const note = noteLookup[keyCodeResult()]
   noteOff(note)
-}
-
-function alreadyPlaying(key) {
-  return key.playing
 }
