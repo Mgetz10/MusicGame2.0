@@ -8,13 +8,16 @@ keys.forEach(key => key.addEventListener('mouseup', handleTouchUp));
 keys.forEach(key => key.addEventListener('mouseout', handleTouchUp));
 
 function handleTouch(e) {
-  const noteName = e.target.dataset.key
-  const note = notesObj[noteName]
-  playNote(note)
+  const note = getNoteFromTarget(e.target)
+  noteOn(note)
 }
 
 function handleTouchUp(e) {
-  const noteName = e.target.dataset.key
-  const note = notesObj[noteName]
-  removeNote(note)
+  const note = getNoteFromTarget(e.target)
+  if (note.playing) noteOff(note)
+}
+
+function getNoteFromTarget(target) {
+  const noteName = target.dataset.key
+  return noteLookup[noteName]
 }

@@ -1,4 +1,6 @@
-var keyCodes = {
+var octave = 4
+
+var keyCodeLookup = {
   '65': () => {
     return `c${octave}`
   },
@@ -44,21 +46,39 @@ var keyCodes = {
   '76': () => {
     return `d${octave + 1}`
   },
+  '90': () => {
+    if (octave > 2) octave--
+    return undefined
+  },
+  '88': () => {
+    if (octave < 9) octave++
+    return undefined
+  },
 }
 window.addEventListener('keydown', parseKeyboard);
 window.addEventListener('keyup', handleKeyUp);
 
 function parseKeyboard(e) {
-  if (!keyCodes[`${e.keyCode}`]) return
-  const noteName = keyCodes[`${e.keyCode}`]()
-  const note = notesObj[noteName]
-  if (alreadyPlaying(note.onKeyboard)) return
-  playNote(note)
+  var keyCodeResult = keyCodeLookup[`${e.keyCode}`]
+  var octaveShift = e.keyCode === 88 || e.keyCode === 90
+  if (!keyCodeResult) return
+  else if (!octaveShift) {
+    const note = noteLookup[keyCodeResult()]
+    if (alreadyPlaying(note)) return
+    noteOn(note)
+  } else {
+    keyCodeResult()
+  }
 }
 
 function handleKeyUp(e) {
-  if (!keyCodes[`${e.keyCode}`]) return
-  const noteName = keyCodes[`${e.keyCode}`]()
-  const note = notesObj[noteName]
-  removeNote(note)
+  var keyCodeResult = keyCodeLookup[`${e.keyCode}`]
+  var octaveShift = e.keyCode === 88 || e.keyCode === 90
+  if (!keyCodeResult || octaveShift) return
+  const note = noteLookup[keyCodeResult()]
+  noteOff(note)
+}
+
+function alreadyPlaying(key) {
+  return key.playing
 }

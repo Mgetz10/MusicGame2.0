@@ -1,28 +1,21 @@
-function alreadyPlaying(key) {
-  return key.classList.contains('playing');
+function noteOn(note) {
+  note.playing = true
+  playNote(note.name);
+  placeOnStaff(note, 'wholenote');
+  if (!note.onKeyboard) {
+    console.warn('keyboard range not yet coded')
+    return
+  }
+  addClass('playing', note.onKeyboard);
 }
 
-function isSharp(note) {
-  return note.includes('#');
+function noteOff(note) {
+  note.playing = false
+  removeFromStaff(note)
+  if (note.onKeyboard) removeClass('playing', note.onKeyboard);
 }
 
-function removeAccidental(note) {
-  if (isSharp(note)) return note.split('#').join('');
-  else return note;
-}
-
-function removeNote(key) {
-  const noteLocation = key.onStaff;
-  const noteToRemove = getElementByDataset('note', key.name, '.note', noteLocation);
-  if (!noteToRemove) return;
-
-  noteLocation.removeChild(noteToRemove);
-
-  removeClass(key.onKeyboard, 'playing');
-  keydown = false;
-}
-
-function playKey(note) {
+function playNote(note) {
   synthA = new Tone.Synth({
     oscillator: {
       type: 'sine'
@@ -39,28 +32,19 @@ function playKey(note) {
   synthA.triggerAttack(note);
 }
 
-function getNoteImg(note, type) {
-  if (isSharp(note))
-    return `<img src="imgs/sharp.svg" class="accidental"/><img src="imgs/${type}.svg" class="${type}"/>`;
-  else return `<img src="imgs/${type}.svg" class="${type}"/>`;
-}
-
-function placeNote(note, type) {
-  if (!note.onStaff) {
+function placeOnStaff(note, type) {
+  if (!note.staffLine) {
     console.warn('range not yet coded')
     return
   }
   const noteToPlace = getNoteImg(note.name, type);
   const noteHTML = `<div class='note' data-note="${note.name}">${noteToPlace}</div>`;
-  note.onStaff.innerHTML += noteHTML;
+  note.staffLine.innerHTML += noteHTML;
 }
 
-function playNote(note) {
-  playKey(note.name);
-  placeNote(note, 'wholenote');
-  if (!note.onKeyboard) {
-    console.warn('keyboard range not yet coded')
-    return
-  }
-  addClass(note.onKeyboard, 'playing');
+function removeFromStaff(note) {
+  if (!note.staffLine) return
+  const noteLocation = note.staffLine;
+  const noteToRemove = getElementByDataset('note', note.name, '.note', noteLocation);
+  return noteLocation.removeChild(noteToRemove);
 }

@@ -1,5 +1,5 @@
 function alterClass(addOrRemove) {
-  return (element, classToRemove) =>
+  return (classToRemove, element) =>
     addOrRemove === 'add' ?
     element.classList.add(classToRemove) :
     element.classList.remove(classToRemove);

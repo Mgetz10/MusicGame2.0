@@ -1,4 +1,28 @@
-const midiNote = {
+const midiLookup = {
+  36: 'c2',
+  37: 'c#2',
+  38: 'd2',
+  39: 'd#2',
+  40: 'e2',
+  41: 'f2',
+  42: 'f#2',
+  43: 'g2',
+  44: 'g#2',
+  45: 'a2',
+  46: 'a#2',
+  47: 'b2',
+  48: 'c3',
+  49: 'c#3',
+  50: 'd3',
+  51: 'd#3',
+  52: 'e3',
+  53: 'f3',
+  54: 'f#3',
+  55: 'g3',
+  56: 'g#3',
+  57: 'a3',
+  58: 'a#3',
+  59: 'b3',
   60: 'c4',
   61: 'c#4',
   62: 'd4',
@@ -68,6 +92,11 @@ const midiNote = {
   126: 'g9',
   127: 'g#9',
 }
+const commandNames = {
+  // 248: "clock",
+  144: "note on",
+  128: "note off",
+}
 
 navigator.requestMIDIAccess()
   .then(onMIDISuccess, onMIDIFailure);
@@ -78,18 +107,26 @@ function onMIDISuccess(midiAccess) {
   }
 }
 
-function getMIDIMessage(midiMessage) {
-  if (midiMessage.data[0] !== 248) {
-    if (midiMessage.data[0] === 144) {
-      const noteName = midiNote[midiMessage.data[1]]
-      playNote(notesObj[noteName])
-    }
-    if (midiMessage.data[0] === 128) {
-      removeNote(notesObj[midiNote[midiMessage.data[1]]])
-    }
-  }
-}
-
 function onMIDIFailure() {
   console.log('Could not access your MIDI devices.');
+}
+
+function getMIDIMessage(midiMessage) {
+  const messageType = parseMIDIType(midiMessage)
+  if (!messageType) return
+
+  const note = parseMIDINote(midiMessage)
+  if (messageType === 'note on') noteOn(note)
+  else if (messageType === 'note off') noteOff(note)
+}
+
+function parseMIDIType(midiMessage) {
+  const messageId = `${midiMessage.data[0]}`
+  return commandNames[messageId]
+}
+
+function parseMIDINote(midiMessage) {
+  const noteId = `${midiMessage.data[1]}`
+  const noteName = midiLookup[noteId]
+  return noteLookup[noteName]
 }
