@@ -111,9 +111,7 @@ function removeAccidental(note) {
 }
 
 function getNoteImg(note, type) {
-  if (isSharp(note))
-    return `<img src="imgs/sharp.svg" class="accidental"/><img src="imgs/${type}.svg" class="${type}"/>`;
-  else return `<img src="imgs/${type}.svg" class="${type}"/>`;
+  return `<img src="imgs/${type}.svg" class="${type}"/>`;
 }
 
 function isSharp(note) {

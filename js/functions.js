@@ -37,8 +37,9 @@ function placeOnStaff(note, type) {
     console.warn('range not yet coded')
     return
   }
-  const noteToPlace = getNoteImg(note.name, type);
-  const noteHTML = `<div class='note' data-note="${note.name}">${noteToPlace}</div>`;
+  // const noteToPlace = getNoteImg(note.name, type);
+  const noteToPlace = '<span class="wholenote"></span>';
+  const noteHTML = `<div class='note ${isSharp(note.name)? 'sharp':''}' data-note="${note.name}">${noteToPlace}</div>`;
   note.staffLine.innerHTML += noteHTML;
 }
 
@@ -47,8 +48,4 @@ function removeFromStaff(note) {
   const noteLocation = note.staffLine;
   const noteToRemove = getElementByDataset('note', note.name, '.note', noteLocation);
   return noteLocation.removeChild(noteToRemove);
-}
-
-function alreadyPlaying(key) {
-  return key.playing
 }
