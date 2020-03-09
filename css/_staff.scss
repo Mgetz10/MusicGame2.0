@@ -38,8 +38,9 @@ $staff-non-border-padding: $staff-line-border-width;
 
       .note {
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        flex-wrap: wrap;
+        align-items: center;
 
         img {
           flex: 0 0 auto;
@@ -94,13 +95,10 @@ $staff-non-border-padding: $staff-line-border-width;
 
     [data-ledger] {
       .note::after {
-        position: relative;
-        display: block;
+        position: absolute;
         content: '';
-        flex: 100%;
         border-bottom: 0.1rem solid;
-        top: -50%;
-        width: 100%;
+        width: 2rem;
       }
     }
 
