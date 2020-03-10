@@ -61,6 +61,9 @@ body {
 }
 
 .staff .bar .staff-line {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
   height: 1rem;
   -webkit-box-pack: center;
       -ms-flex-pack: center;

@@ -25,6 +25,7 @@ $staff-non-border-padding: $staff-line-border-width;
     }
 
     .staff-line {
+      flex: 0 0 auto;
       height: $staff-line-height;
       justify-content: center;
       box-sizing: border-box;
