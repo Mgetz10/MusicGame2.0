@@ -13,10 +13,15 @@ $staff-non-border-padding: $staff-line-border-width;
   .bar {
     height: 80%;
     width: 80%;
-    /* background: lightblue; */
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    &:nth-child(1) {
+      .staff-line {
+        padding-left: 20%;
+      }
+    }
 
     .treble-clef {
       font-size: 9.4rem;
@@ -45,87 +50,81 @@ $staff-non-border-padding: $staff-line-border-width;
 
         img {
           flex: 0 0 auto;
+
+          &.wholenote {
+            height: 100%;
+          }
+
+          &.halfnote {
+            height: 507%;
+            transform: translateY(-100%);
+            top: 156%;
+            position: relative;
+            margin-left: -22%;
+          }
+
+          &.quarternote {
+            height: 481%;
+            transform: translateY(-100%);
+            top: 156%;
+            position: relative;
+            margin-left: -22%;
+          }
+
+          &.accidental {
+            position: relative;
+            height: 193%;
+            display: block;
+            transform: translateY(-50%);
+            top: 50%;
+            margin-left: -25%;
+          }
         }
 
-        img.wholenote {
-          height: 100%;
+        span {
+          &.wholenote {
+            width: 1rem;
+            height: 100%;
+            background: white;
+            border-radius: 50%;
+            box-sizing: border-box;
+            border: 0.1rem solid;
+          }
         }
 
-        span.wholenote {
-          width: 1rem;
-          height: 100%;
-          background: white;
-          border-radius: 50%;
-          box-sizing: border-box;
-          border: 0.1rem solid;
-        }
-
-        .halfnote {
-          height: 507%;
-          transform: translateY(-100%);
-          top: 156%;
-          position: relative;
-          margin-left: -22%;
-        }
-
-        .quarternote {
-          height: 481%;
-          transform: translateY(-100%);
-          top: 156%;
-          position: relative;
-          margin-left: -22%;
-        }
-
-        .accidental {
-          position: relative;
-          height: 193%;
-          display: block;
-          transform: translateY(-50%);
-          top: 50%;
-          margin-left: -25%;
+        &.sharp::before {
+          content: '♯';
+          position: absolute;
+          margin: 0.15rem 0 0 -1.1rem;
+          font-size: 1.6rem;
         }
       }
 
-      .note.sharp::before {
-        content: '♯';
-        position: absolute;
-        margin-left: -1.3rem;
-        font-size: 1.6rem;
+      &[data-ledger] {
+        .note::after {
+          position: absolute;
+          content: '';
+          border-bottom: 0.1rem solid;
+          width: 2rem;
+        }
       }
-    }
 
-    [data-ledger] {
-      .note::after {
-        position: absolute;
-        content: '';
-        border-bottom: 0.1rem solid;
-        width: 2rem;
+      /* .staff-line[data-key='e5'],  */
+      &[data-key='g5'],
+      &[data-key='e5'],
+      &[data-key='c5'],
+      &[data-key='a4'],
+      &[data-key='f4'] {
+        border-style: none none solid none;
+        border-width: $staff-line-border-width;
+        z-index: 1;
+        padding-bottom: 0;
+        /* background: pink; */
       }
-    }
 
-    /* .staff-line[data-key='e5'],  */
-    .staff-line[data-key='g5'],
-    .staff-line[data-key='e5'],
-    .staff-line[data-key='c5'],
-    .staff-line[data-key='a4'],
-    .staff-line[data-key='f4'] {
-      border-style: none none solid none;
-      border-width: $staff-line-border-width;
-      z-index: 1;
-      padding-bottom: 0;
-      /* background: pink; */
-    }
-
-    .staff-line:nth-child(2) {
-      margin-top: 0;
-      /* background: blue; */
-    }
-
-  }
-
-  .bar:nth-child(1) {
-    .staff-line {
-      padding-left: 20%;
+      &:nth-child(2) {
+        margin-top: 0;
+      }
     }
   }
 }

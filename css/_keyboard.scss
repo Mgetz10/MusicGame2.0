@@ -28,48 +28,50 @@ $negative-margin: calc(#{$black-key-width} / -2);
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
       -webkit-touch-callout: none;
       user-select: none;
+
+      /* justify-content: center; */
+      &.white {
+        background: white;
+        box-sizing: border-box;
+        border-width: 0 0.1rem 0.3rem;
+        border-style: none solid solid;
+        width: $white-key-width;
+        margin-left: $negative-margin;
+        height: 99%;
+        border-color: #c7c7c7;
+
+        &.playing {
+          margin-top: 0.1rem;
+          border-width: 0 0.105rem 0.05rem;
+        }
+
+        &:focus {
+          z-index: 1;
+        }
+
+        &[data-key*='c'],
+        &[data-key*='f'] {
+          margin-left: 0;
+        }
+      }
+
+      &.black {
+        background: rgb(48, 48, 48);
+        height: 58%;
+        width: $black-key-width;
+        z-index: 2;
+        margin-left: $negative-margin;
+        border-width: 0 0.4rem 0.5rem;
+        border-style: none solid solid;
+        border-color: black rgb(31, 31, 31);
+
+        &.playing {
+          border-color: black rgb(24, 24, 24);
+          border-width: 0 0.4rem 0.3rem;
+        }
+      }
     }
 
-    /* justify-content: center; */
-    .keys.white {
-      background: white;
-      box-sizing: border-box;
-      border-width: 0 0.1rem 0.3rem;
-      border-style: none solid solid;
-      width: $white-key-width;
-      margin-left: $negative-margin;
-      height: 99%;
-      border-color: #c7c7c7;
-    }
-
-    .white.playing {
-      margin-top: 0.1rem;
-      border-width: 0 0.105rem 0.05rem;
-    }
-
-    .keys.black {
-      background: rgb(48, 48, 48);
-      height: 58%;
-      width: $black-key-width;
-      z-index: 1;
-      margin-left: $negative-margin;
-      border-width: 0 0.4rem 0.5rem;
-      border-style: none solid solid;
-      border-color: black rgb(31, 31, 31);
-    }
-
-    .black.playing {
-      border-color: black rgb(24, 24, 24);
-      border-width: 0 0.4rem 0.3rem;
-    }
-
-    .keys[data-key='f3'],
-    .keys[data-key='c4'],
-    .keys[data-key='f4'],
-    .keys[data-key='c5'],
-    .keys[data-key='f5'] {
-      margin-left: 0;
-    }
   }
 
 }

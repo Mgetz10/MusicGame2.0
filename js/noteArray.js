@@ -92,6 +92,16 @@ const noteLookup = {
   "f#9": {},
   "g9": {},
 }
+const octaves = {
+  2: [],
+  3: [],
+  4: [],
+  5: [],
+  6: [],
+  7: [],
+  8: [],
+  9: [],
+}
 
 buildNoteLookup()
 
@@ -102,6 +112,7 @@ function buildNoteLookup() {
     noteLookup[key].name = key
     noteLookup[key].onKeyboard = keyboard.querySelector(`[data-key='${key}']`)
     noteLookup[key].staffLine = staff.querySelector(`[data-key='${removeAccidental(key)}']`)
+    octaves[key.slice(-1)].push(noteLookup[key])
   }
 }
 

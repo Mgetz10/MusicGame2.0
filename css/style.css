@@ -40,7 +40,6 @@ body {
 .staff .bar {
   height: 80%;
   width: 80%;
-  /* background: lightblue; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -51,7 +50,10 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  /* .staff-line[data-key='e5'],  */
+}
+
+.staff .bar:nth-child(1) .staff-line {
+  padding-left: 20%;
 }
 
 .staff .bar .treble-clef {
@@ -79,6 +81,7 @@ body {
   display: grid;
   -ms-grid-columns: (1fr)[8];
       grid-template-columns: repeat(8, 1fr);
+  /* .staff-line[data-key='e5'],  */
 }
 
 .staff .bar .staff-line .note {
@@ -107,6 +110,34 @@ body {
   height: 100%;
 }
 
+.staff .bar .staff-line .note img.halfnote {
+  height: 507%;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  top: 156%;
+  position: relative;
+  margin-left: -22%;
+}
+
+.staff .bar .staff-line .note img.quarternote {
+  height: 481%;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  top: 156%;
+  position: relative;
+  margin-left: -22%;
+}
+
+.staff .bar .staff-line .note img.accidental {
+  position: relative;
+  height: 193%;
+  display: block;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  top: 50%;
+  margin-left: -25%;
+}
+
 .staff .bar .staff-line .note span.wholenote {
   width: 1rem;
   height: 100%;
@@ -117,53 +148,21 @@ body {
   border: 0.1rem solid;
 }
 
-.staff .bar .staff-line .note .halfnote {
-  height: 507%;
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-  top: 156%;
-  position: relative;
-  margin-left: -22%;
-}
-
-.staff .bar .staff-line .note .quarternote {
-  height: 481%;
-  -webkit-transform: translateY(-100%);
-          transform: translateY(-100%);
-  top: 156%;
-  position: relative;
-  margin-left: -22%;
-}
-
-.staff .bar .staff-line .note .accidental {
-  position: relative;
-  height: 193%;
-  display: block;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  top: 50%;
-  margin-left: -25%;
-}
-
 .staff .bar .staff-line .note.sharp::before {
   content: '♯';
   position: absolute;
-  margin-left: -1.3rem;
+  margin: 0.15rem 0 0 -1.1rem;
   font-size: 1.6rem;
 }
 
-.staff .bar [data-ledger] .note::after {
+.staff .bar .staff-line[data-ledger] .note::after {
   position: absolute;
   content: '';
   border-bottom: 0.1rem solid;
   width: 2rem;
 }
 
-.staff .bar .staff-line[data-key='g5'],
-.staff .bar .staff-line[data-key='e5'],
-.staff .bar .staff-line[data-key='c5'],
-.staff .bar .staff-line[data-key='a4'],
-.staff .bar .staff-line[data-key='f4'] {
+.staff .bar .staff-line[data-key='g5'], .staff .bar .staff-line[data-key='e5'], .staff .bar .staff-line[data-key='c5'], .staff .bar .staff-line[data-key='a4'], .staff .bar .staff-line[data-key='f4'] {
   border-style: none none solid none;
   border-width: 0.1rem;
   z-index: 1;
@@ -173,11 +172,6 @@ body {
 
 .staff .bar .staff-line:nth-child(2) {
   margin-top: 0;
-  /* background: blue; */
-}
-
-.staff .bar:nth-child(1) .staff-line {
-  padding-left: 20%;
 }
 
 /*6.67% = 100% no overflow*/
@@ -205,7 +199,6 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  /* justify-content: center; */
 }
 
 .keyboard-section .keyboard .keys {
@@ -224,6 +217,7 @@ body {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  /* justify-content: center; */
 }
 
 .keyboard-section .keyboard .keys.white {
@@ -238,32 +232,32 @@ body {
   border-color: #c7c7c7;
 }
 
-.keyboard-section .keyboard .white.playing {
+.keyboard-section .keyboard .keys.white.playing {
   margin-top: 0.1rem;
   border-width: 0 0.105rem 0.05rem;
+}
+
+.keyboard-section .keyboard .keys.white:focus {
+  z-index: 1;
+}
+
+.keyboard-section .keyboard .keys.white[data-key*='c'], .keyboard-section .keyboard .keys.white[data-key*='f'] {
+  margin-left: 0;
 }
 
 .keyboard-section .keyboard .keys.black {
   background: #303030;
   height: 58%;
   width: calc(11.1% / 2);
-  z-index: 1;
+  z-index: 2;
   margin-left: calc(calc(11.1% / 2) / -2);
   border-width: 0 0.4rem 0.5rem;
   border-style: none solid solid;
   border-color: black #1f1f1f;
 }
 
-.keyboard-section .keyboard .black.playing {
+.keyboard-section .keyboard .keys.black.playing {
   border-color: black #181818;
   border-width: 0 0.4rem 0.3rem;
-}
-
-.keyboard-section .keyboard .keys[data-key='f3'],
-.keyboard-section .keyboard .keys[data-key='c4'],
-.keyboard-section .keyboard .keys[data-key='f4'],
-.keyboard-section .keyboard .keys[data-key='c5'],
-.keyboard-section .keyboard .keys[data-key='f5'] {
-  margin-left: 0;
 }
 /*# sourceMappingURL=style.css.map */

@@ -49,3 +49,12 @@ function removeFromStaff(note) {
   const noteToRemove = getElementByDataset('note', note.name, '.note', noteLocation);
   return noteLocation.removeChild(noteToRemove);
 }
+
+function viewOctave(octave) {
+  noteLookup['c2'].onKeyboard.scrollIntoView()
+  if (octave === 9) return noteLookup['g9'].onKeyboard.scrollIntoView()
+  else return noteLookup[`d${octave+1}`].onKeyboard.scrollIntoView()
+}
+
+// const distanceToScroll = document.querySelector(".keys[data-key='d5']");
+// distanceToScroll.scrollIntoView();
