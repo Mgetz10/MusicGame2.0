@@ -53,7 +53,7 @@ body {
 }
 
 .staff .bar:nth-child(1) .staff-line {
-  padding-left: 20%;
+  padding-left: 3.4rem;
 }
 
 .staff .bar .treble-clef {
@@ -76,15 +76,16 @@ body {
   display: block;
   width: 100%;
   margin-top: calc(1rem / -2);
-  padding-bottom: 0.1rem;
+  padding-bottom: 0.125rem;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[8];
-      grid-template-columns: repeat(8, 1fr);
+  -ms-grid-columns: (1fr)[16];
+      grid-template-columns: repeat(16, 1fr);
   /* .staff-line[data-key='e5'],  */
 }
 
 .staff .bar .staff-line .note {
+  overflow: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -98,6 +99,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  overflow: visible;
 }
 
 .staff .bar .staff-line .note img {
@@ -138,14 +140,67 @@ body {
   margin-left: -25%;
 }
 
-.staff .bar .staff-line .note span.wholenote {
+.staff .bar .staff-line .note .note-body {
+  background-color: black;
   width: 1rem;
   height: 100%;
-  background: white;
-  border-radius: 50%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border: 0.1rem solid;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  padding-bottom: 0.35rem;
+  max-height: 1rem;
+}
+
+.staff .bar .staff-line .note .note-body .stem {
+  border-right: solid black 0.125rem;
+  height: 3rem;
+  margin-right: -0.1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 0;
+  overflow: visible;
+  border-radius: 0.1rem;
+}
+
+.staff .bar .staff-line .note .note-body .stem::before,
+.staff .bar .staff-line .note .note-body .stem::after {
+  content: '';
+  width: 1rem;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  border-radius: 0 63.8%;
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transform: translate(-0.2rem, -0.04rem) rotateZ(37deg);
+          transform: translate(-0.2rem, -0.04rem) rotateZ(37deg);
+  border-bottom: 0.2rem solid transparent;
+  border-top: 0.25rem solid black;
+  border-left: 0.20rem solid transparent;
+  border-right: 0.05rem solid black;
+  height: 0.5rem;
+}
+
+.staff .bar .staff-line .note .note-body .stem::after {
+  margin-top: -0.4rem;
 }
 
 .staff .bar .staff-line .note.sharp::before {
@@ -153,6 +208,67 @@ body {
   position: absolute;
   margin: 0.15rem 0 0 -1.1rem;
   font-size: 1.6rem;
+}
+
+.staff .bar .staff-line .note.whole {
+  -ms-grid-column-span: 16;
+      grid-column-end: span 16;
+}
+
+.staff .bar .staff-line .note.whole .note-body {
+  background: white;
+}
+
+.staff .bar .staff-line .note.whole .note-body .stem {
+  display: none;
+}
+
+.staff .bar .staff-line .note.half {
+  -ms-grid-column-span: 8;
+      grid-column-end: span 8;
+}
+
+.staff .bar .staff-line .note.half .note-body {
+  background: white;
+}
+
+.staff .bar .staff-line .note.half .note-body .stem::before,
+.staff .bar .staff-line .note.half .note-body .stem::after {
+  display: none;
+}
+
+.staff .bar .staff-line .note.quarter {
+  -ms-grid-column-span: 4;
+      grid-column-end: span 4;
+}
+
+.staff .bar .staff-line .note.quarter .stem::before,
+.staff .bar .staff-line .note.quarter .stem::after {
+  display: none;
+}
+
+.staff .bar .staff-line .note.eigth {
+  -ms-grid-column-span: 2;
+      grid-column-end: span 2;
+}
+
+.staff .bar .staff-line .note.eigth .note-body .stem::after {
+  display: none;
+}
+
+.staff .bar .staff-line .note.sixteenth {
+  -ms-grid-column-span: 1;
+      grid-column-end: span 1;
+}
+
+.staff .bar .staff-line .note.bridged.eigth .note-body .stem, .staff .bar .staff-line .note.bridged.sixteenth .note-body .stem {
+  border-radius: 0;
+}
+
+.staff .bar .staff-line .note.bridged.eigth .note-body .stem::after,
+.staff .bar .staff-line .note.bridged.eigth .note-body .stem::before, .staff .bar .staff-line .note.bridged.sixteenth .note-body .stem::after,
+.staff .bar .staff-line .note.bridged.sixteenth .note-body .stem::before {
+  display: none;
 }
 
 .staff .bar .staff-line[data-ledger] .note::after {
@@ -164,7 +280,7 @@ body {
 
 .staff .bar .staff-line[data-key='g5'], .staff .bar .staff-line[data-key='e5'], .staff .bar .staff-line[data-key='c5'], .staff .bar .staff-line[data-key='a4'], .staff .bar .staff-line[data-key='f4'] {
   border-style: none none solid none;
-  border-width: 0.1rem;
+  border-width: 0.125rem;
   z-index: 1;
   padding-bottom: 0;
   /* background: pink; */
@@ -172,6 +288,20 @@ body {
 
 .staff .bar .staff-line:nth-child(2) {
   margin-top: 0;
+}
+
+.staff .bar .bridge {
+  position: absolute;
+}
+
+.staff .bar .bridge line {
+  stroke: black;
+  stroke-width: 1rem;
+  stroke-linecap: round;
+}
+
+.staff .bar .bridge .note-line {
+  stroke-width: 0.26rem;
 }
 
 /*6.67% = 100% no overflow*/

@@ -17,3 +17,15 @@ function getElementByDataset(
     `${specifier}[data-${data}="${searchString}"]`
   );
 }
+
+function setStyles(elem, styleObj) {
+  for (var key in styleObj) {
+    elem.style[key] = styleObj[key]
+  }
+}
+
+function setAttributes(elem, attObj) {
+  for (var key in attObj) {
+    elem.setAttribute(key, attObj[key])
+  }
+}
