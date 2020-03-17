@@ -6,30 +6,21 @@ function noteOn(note) {
     console.warn('keyboard range not yet coded')
     return
   }
-  addClass('playing', note.onKeyboard);
+  addClasses({
+    playing: [note.onKeyboard]
+  });
 }
 
 function noteOff(note) {
   note.playing = false
   removeFromStaff(note, 'eigth')
-  if (note.onKeyboard) removeClass('playing', note.onKeyboard);
+  if (note.onKeyboard) removeClasses({
+    playing: [note.onKeyboard]
+  });
 }
 
 function playNote(note) {
-  synthA = new Tone.Synth({
-    oscillator: {
-      type: 'sine'
-    },
-    envelope: {
-      attack: 0.1,
-      decay: 5,
-      sustain: 0,
-      release: 3
-    }
-  }).toMaster();
-  this.synthA.volume.value = -12;
-
-  synthA.triggerAttack(note);
+  synthA.triggerAttackRelease(note, '8n');
 }
 
 function placeOnStaff(note, type) {
@@ -74,7 +65,7 @@ function createNote(name, type) {
   const noteBody = document.createElement('span')
   const stem = document.createElement('span')
   note.classList.add('note', type)
-  if (isSharp(name)) note.classList.add('sharp')
+  if (isSharp(name)) addClass(["sharp"], note)
   note.setAttribute('data-note', name)
   noteBody.classList.add('note-body')
   stem.classList.add('stem')
@@ -110,8 +101,10 @@ function calculateSpaces(noteType) {
 
 function createSVG(width, height) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('width', width)
-  svg.setAttribute('height', height)
+  setAttributes(svg, {
+    width: width,
+    height: height
+  })
   return svg
 }
 
@@ -131,40 +124,99 @@ function handleBridging(note) {
   const bridgable = note.type === 'eigth' || note.type === 'sixteenth'
   const firstNote = staff.notes.length <= 1
   if (!bridgable || firstNote) return
-  const previousNote = staff.notes[staff.notes.length - 2]
-  console.log(previousNote)
-  const sameNoteType = note.type === previousNote.type
+  const prevNote = staff.notes[staff.notes.length - 2]
+  const sameNoteType = note.type === prevNote.type
   if (!sameNoteType) return
-  addClass('bridged', note.dom)
-  addClass('bridged', previousNote.dom)
+  const alreadyBridged = prevNote.dom.classList.contains('bridged')
   const stem = note.dom.querySelector('.stem')
-  const prevStem = previousNote.dom.querySelector('.stem')
   const stemCoords = stem.getBoundingClientRect()
-  const prevStemCoords = prevStem.getBoundingClientRect()
-  const firstNoteLower = prevStemCoords.y > stemCoords.y
-  const lowerStem = firstNoteLower ? prevStemCoords : stemCoords
-  const higherStem = firstNoteLower ? stemCoords : prevStemCoords
-  const svgHeight = lowerStem.y - higherStem.y
-  const svgWidth = (stemCoords.x - prevStemCoords.x) + 2
-  const bridge = createSVG(svgWidth, svgHeight)
-  setStyles(bridge, {
-    left: `${prevStemCoords.x}px`,
-    top: `${higherStem.y}px`
-  })
-  const bridgeLine = createLine(0, 0, svgWidth, 0)
-  bridge.appendChild(bridgeLine)
+  if (!alreadyBridged) {
+    const prevStem = prevNote.dom.querySelector('.stem')
+    const prevStemCoords = prevStem.getBoundingClientRect()
+    const firstNoteLower = prevStemCoords.y > stemCoords.y
+    const higherStem = firstNoteLower ? stemCoords : prevStemCoords
+    const svgHeight = Math.abs(prevStemCoords.y - stemCoords.y)
+    const svgWidth = (stemCoords.x - prevStemCoords.x) + 2
+    const bridge = {
+      notes: [{
+        dom: prevNote.dom,
+      }, {
+        dom: note.dom,
+      }],
+      dom: createSVG(svgWidth, svgHeight),
+      top: higherStem.y,
+      left: prevStemCoords.x,
+      height: svgHeight,
+      width: svgWidth
+    }
+    const bridgeLine = createLine(0, 0, svgWidth, 0)
+    const noteLine = createLine(firstNoteLower ? '0' : svgWidth,
+      '0',
+      firstNoteLower ? '0' : svgWidth,
+      svgHeight)
+    const dummyLine = createLine(!firstNoteLower ? '0' : svgWidth,
+      '0',
+      !firstNoteLower ? '0' : svgWidth,
+      '0')
+    bridge.notes[0].stemLine = firstNoteLower ? noteLine : dummyLine
+    bridge.notes[1].stemLine = firstNoteLower ? dummyLine : noteLine
+    bridge.line = bridgeLine
+    setStyles(bridge.dom, {
+      top: `${bridge.top}px`,
+      left: `${bridge.left}px`
+    })
+    addClasses({
+      bridged: [note.dom, prevNote.dom],
+      'note-line': [noteLine, dummyLine],
+      bridge: [bridge.dom]
+    })
 
-  const noteLine = createLine(firstNoteLower ? '0' : svgWidth,
-    '0',
-    firstNoteLower ? '0' : svgWidth,
-    svgHeight)
+    note.bridge = bridge
+    prevNote.bridge = bridge
+    bridge.dom.appendChild(bridgeLine)
+    bridge.dom.appendChild(noteLine)
+    bridge.dom.appendChild(dummyLine)
+    staff.dom.appendChild(bridge.dom)
+  } else {
+    const bridge = prevNote.bridge
+    const taller = stemCoords.y < bridge.top
+    if (taller) {
+      // update svg height
+      const difference = bridge.top - stemCoords.y
+      bridge.height += difference
+      setAttributes(bridge.dom, {
+        height: bridge.height
+      })
+      // update svg y
+      bridge.top = stemCoords.y
+      setStyles(bridge.dom, {
+        top: stemCoords.y
+      })
+      // update note lines
+      bridge.notes.forEach(note => {
+        note.stemLine.y2.baseVal.value += difference
+      });
 
-  addClass('note-line', noteLine)
-  addClass('bridge', bridge)
-  bridge.appendChild(noteLine)
-  staff.dom.appendChild(bridge)
-
-
+    }
+    // update svg X
+    bridge.width = stemCoords.x - bridge.left
+    bridge.dom.width.baseVal.value = bridge.width + 2
+    // update bridgeline x
+    bridge.line.x2.baseVal.value = bridge.width
+    // new note line
+    const noteLine = createLine(bridge.width,
+      '0',
+      bridge.width,
+      stemCoords.y - bridge.top)
+    note.bridge = bridge
+    addClass(['note-line'], noteLine)
+    addClass(['bridged'], note.dom)
+    bridge.notes.push({
+      dom: note.dom,
+      stemLine: noteLine
+    })
+    bridge.dom.appendChild(noteLine)
+  }
 }
-// const distanceToScroll = document.querySelector(".keys[data-key='d5']");
-// distanceToScroll.scrollIntoView();
+
+// function lowerMinusHigher

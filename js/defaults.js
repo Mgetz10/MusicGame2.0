@@ -1,11 +1,20 @@
 function alterClass(addOrRemove) {
-  return (classToRemove, element) =>
-    addOrRemove === 'add' ?
-    element.classList.add(classToRemove) :
-    element.classList.remove(classToRemove);
+  return (classInput, elem) => elem.classList[addOrRemove](...classInput)
 }
 const addClass = alterClass('add');
 const removeClass = alterClass('remove');
+
+function alterClasses(addOrRemove) {
+  return function (inputObj) {
+    for (var key in inputObj) {
+      inputObj[key].forEach(element => {
+        element.classList[addOrRemove](key)
+      });
+    }
+  }
+}
+const addClasses = alterClasses('add');
+const removeClasses = alterClasses('remove');
 
 function getElementByDataset(
   data,
