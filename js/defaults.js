@@ -8,7 +8,7 @@ function alterClasses(addOrRemove) {
   return function (inputObj) {
     for (var key in inputObj) {
       inputObj[key].forEach(element => {
-        element.classList[addOrRemove](key)
+        return element.classList[addOrRemove](key)
       });
     }
   }
@@ -37,4 +37,11 @@ function setAttributes(elem, attObj) {
   for (var key in attObj) {
     elem.setAttribute(key, attObj[key])
   }
+}
+
+function posAbs(elem, top, left) {
+  setStyles(elem, {
+    top: top,
+    left: left
+  })
 }

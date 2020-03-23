@@ -1,3 +1,9 @@
+const commandNames = {
+  // 248: "clock",
+  153: "pad",
+  144: "note on",
+  128: "note off",
+}
 const midiLookup = {
   36: 'c2',
   37: 'c#2',
@@ -92,10 +98,10 @@ const midiLookup = {
   126: 'g9',
   127: 'g#9',
 }
-const commandNames = {
-  // 248: "clock",
-  144: "note on",
-  128: "note off",
+
+const padCommands = {
+  40: startMetronome,
+  41: stopMetronome
 }
 
 navigator.requestMIDIAccess()
@@ -115,9 +121,13 @@ function getMIDIMessage(midiMessage) {
   const messageType = parseMIDIType(midiMessage)
   if (!messageType) return
 
-  const note = parseMIDINote(midiMessage)
-  if (messageType === 'note on') noteOn(note)
-  else if (messageType === 'note off') noteOff(note)
+  if (messageType === 'note on' || messageType === 'note off') {
+    const note = parseMIDINote(midiMessage)
+    if (messageType === 'note on') noteOn(note)
+    else if (messageType === 'note off') noteOff(note)
+  } else if (messageType === 'pad') {
+    padCommands[`${midiMessage.data[1]}`]()
+  }
 }
 
 function parseMIDIType(midiMessage) {

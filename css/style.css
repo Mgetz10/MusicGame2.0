@@ -203,6 +203,20 @@ body {
   margin-top: -0.4rem;
 }
 
+.staff .bar .staff-line .note.dotted .note-body::after {
+  content: '';
+  width: 0.3rem;
+  height: 0.3rem;
+  background: black;
+  margin-bottom: -0.4rem;
+  margin-right: -0.5rem;
+  border-radius: 101%;
+}
+
+.staff .bar .staff-line .note.dotted .note-body .stem {
+  margin-right: 0.1rem;
+}
+
 .staff .bar .staff-line .note.sharp::before {
   content: '♯';
   position: absolute;
@@ -210,53 +224,53 @@ body {
   font-size: 1.6rem;
 }
 
-.staff .bar .staff-line .note.whole {
+.staff .bar .staff-line .note[data-type='whole'] {
   -ms-grid-column-span: 16;
       grid-column-end: span 16;
 }
 
-.staff .bar .staff-line .note.whole .note-body {
+.staff .bar .staff-line .note[data-type='whole'] .note-body {
   background: white;
 }
 
-.staff .bar .staff-line .note.whole .note-body .stem {
+.staff .bar .staff-line .note[data-type='whole'] .note-body .stem {
   display: none;
 }
 
-.staff .bar .staff-line .note.half {
+.staff .bar .staff-line .note[data-type='half'] {
   -ms-grid-column-span: 8;
       grid-column-end: span 8;
 }
 
-.staff .bar .staff-line .note.half .note-body {
+.staff .bar .staff-line .note[data-type='half'] .note-body {
   background: white;
 }
 
-.staff .bar .staff-line .note.half .note-body .stem::before,
-.staff .bar .staff-line .note.half .note-body .stem::after {
+.staff .bar .staff-line .note[data-type='half'] .note-body .stem::before,
+.staff .bar .staff-line .note[data-type='half'] .note-body .stem::after {
   display: none;
 }
 
-.staff .bar .staff-line .note.quarter {
+.staff .bar .staff-line .note[data-type='quarter'] {
   -ms-grid-column-span: 4;
       grid-column-end: span 4;
 }
 
-.staff .bar .staff-line .note.quarter .stem::before,
-.staff .bar .staff-line .note.quarter .stem::after {
+.staff .bar .staff-line .note[data-type='quarter'] .stem::before,
+.staff .bar .staff-line .note[data-type='quarter'] .stem::after {
   display: none;
 }
 
-.staff .bar .staff-line .note.eigth {
+.staff .bar .staff-line .note[data-type='eigth'] {
   -ms-grid-column-span: 2;
       grid-column-end: span 2;
 }
 
-.staff .bar .staff-line .note.eigth .note-body .stem::after {
+.staff .bar .staff-line .note[data-type='eigth'] .note-body .stem::after {
   display: none;
 }
 
-.staff .bar .staff-line .note.sixteenth {
+.staff .bar .staff-line .note[data-type='sixteenth'] {
   -ms-grid-column-span: 1;
       grid-column-end: span 1;
 }
@@ -301,7 +315,11 @@ body {
 }
 
 .staff .bar .bridge .note-line {
-  stroke-width: 0.26rem;
+  stroke-width: 0.16rem;
+}
+
+.staff .bar .bridge .bridge-line-sixteenth {
+  stroke-width: 0.3rem;
 }
 
 /*6.67% = 100% no overflow*/
