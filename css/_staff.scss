@@ -147,7 +147,7 @@ $staff-non-border-padding: $staff-line-border-width;
           }
         }
 
-        &.sharp::before {
+        &[data-accidental='sharp']::before {
           content: '♯';
           position: absolute;
           margin: 0.15rem 0 0 -1.1rem;

@@ -25,7 +25,7 @@ function startMetronome() {
     beat = (beat % 4) + 1
     if (beat !== 1) metronomeOSC.triggerAttackRelease('g5', '0.001')
     else metronomeOSC.triggerAttackRelease('a5', '0.001')
-    console.log(beatDivision % 4 === 1, beatDivision, beat)
+    // console.log(beatDivision % 4 === 1, beatDivision, beat)
   }, 250)
 }
 

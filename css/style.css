@@ -217,7 +217,7 @@ body {
   margin-right: 0.1rem;
 }
 
-.staff .bar .staff-line .note.sharp::before {
+.staff .bar .staff-line .note[data-accidental='sharp']::before {
   content: '♯';
   position: absolute;
   margin: 0.15rem 0 0 -1.1rem;

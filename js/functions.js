@@ -1,7 +1,9 @@
+// let worker = new Worker('js/bridgeWorker.js')
+
 function noteOn(note) {
   note.playing = true
   playNote(note.name);
-
+  // worker.postMessage(JSON.stringify(note))
   placeOnStaff(note, 'sixteenth');
   if (!note.onKeyboard) {
     console.warn('keyboard range not yet coded')

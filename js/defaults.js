@@ -1,5 +1,5 @@
 function alterClass(addOrRemove) {
-  return (classInput, elem) => elem.classList[addOrRemove](...classInput)
+  return (classInput, elem) => elem.classList[addOrRemove](classInput)
 }
 const addClass = alterClass('add');
 const removeClass = alterClass('remove');

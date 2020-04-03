@@ -1,11 +1,12 @@
 const keys = Array.from(document.querySelectorAll('.keys'));
-keys.forEach(key => key.addEventListener('mousedown', handleTouch));
-keys.forEach(key => key.addEventListener('touchstart', handleTouch));
-keys.forEach(key => key.addEventListener('touchmove', handleTouch));
-// keys.forEach(key => key.addEventListener('touchend', handleTouchUp));
-keys.forEach(key => key.addEventListener('touchcancel', handleTouchUp));
-keys.forEach(key => key.addEventListener('mouseup', handleTouchUp));
-keys.forEach(key => key.addEventListener('mouseout', handleTouchUp));
+keys.forEach(key => {
+  key.addEventListener('mousedown', handleTouch)
+  key.addEventListener('touchstart', handleTouch)
+  key.addEventListener('touchmove', handleTouch)
+  key.addEventListener('touchcancel', handleTouchUp)
+  key.addEventListener('mouseup', handleTouchUp)
+  key.addEventListener('mouseout', handleTouchUp)
+});
 
 function handleTouch(e) {
   const note = getNoteFromTarget(e.target)
