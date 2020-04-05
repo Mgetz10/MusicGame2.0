@@ -1,7 +1,9 @@
-/* New Strategy
+/*
+New Strategy
 Create staff object
 display staff by rendering staff object
 */
+
 const noteTemplate = buildNote()
 const staffLines = document.querySelectorAll('.staff-line')
 const staff = {
@@ -9,34 +11,23 @@ const staff = {
   time: 0,
   notes: [],
 }
+const bridges = {}
 
-function placeOnStaff(note, type) {
+function placeOnStaff(note, type, time) {
   if (!note.staffLine) {
     console.warn('out of range')
     return
   }
   const prevNote = staff.notes[staff.notes.length - 1]
-  // use beatDivision inside calcnote to calculate if current note
-  //// if beatDivision > note.location = not current note
-  // calculateNoteType(prevNote)
 
   staff.notes.push({
     ...note,
-    // recreate calculateNoteType() so it involves no dom elems
-    type: 'whole', //calculateNoteType()
-    location: beatDivision,
+    location: quantize(time),
     bridge: '' //handleBridging(noteObj, prevNote)
-  }) - 1
+  })
 
-  // POSSIBLY PUT CHECKS BELOW IN FUNCTION
-  // if (prevNote) {
-  //   const sameBar = beatDivision - prevNote.location >= 0
-  //   const sameLocation = noteObj.location === prevNote.location
-  //   if (sameBar && !sameLocation)
-  // }
-  // console.time('g')
+  updateRelationships(staff)
   renderStaff(staff)
-  // console.timeEnd('g')
 }
 
 function renderStaff(staff) {
@@ -44,6 +35,7 @@ function renderStaff(staff) {
   staff.notes.forEach(note => {
     const domNote = createNote()
     attachLabels(domNote, note.name, note.type)
+    domNote.style.gridColumnStart = note.location
     note.staffLine.appendChild(domNote)
   })
 }
@@ -71,7 +63,6 @@ function buildNote() {
 }
 
 function createNote(name, type) {
-  // const noteToPlace = '<span class="note-body"><span class="stem"></span></span>';
   let note = noteTemplate.cloneNode(true)
   addClass('note', note)
   return note
@@ -79,7 +70,8 @@ function createNote(name, type) {
 
 function attachLabels(note, name, type) {
   setAttributes(note, {
-    'data-type': type,
+    'data-type': type[0],
+    'data-dotted': type[1],
     'data-note': name,
     'data-accidental': accidental(name)
   })
@@ -89,127 +81,84 @@ function accidental(name) {
   return isSharp(name) ? 'sharp' : 'none';
 }
 
-function calculateSpaces(noteType) {
-  var spaces;
-  switch (noteType) {
-    case 'whole':
-      spaces = 16
-      break;
-    case 'half':
-      spaces = 8
-      break;
-    case 'quarter':
-      spaces = 4
-      break;
-    case 'eigth':
-      spaces = 2
-      break;
-    case 'sixteenth':
-      spaces = 1
-      break;
-    default:
-      spaces = 1
-      break
-  }
-  return spaces
+
+const spaceConverter = {
+  'whole': 16,
+  'half': 8,
+  'quarter': 4,
+  'eigth': 2,
+  'sixteenth': 1,
+  16: 'whole',
+  8: 'half',
+  4: 'quarter',
+  2: 'eigth',
+  1: 'sixteenth',
 }
+
 
 const getPreviousNote = (note) => {
   return staff.notes[staff.notes.indexOf(note) - 1]
 }
 
-function calculateNoteType(noteOne, noteTwo) {
-  const end = noteTwo ? noteTwo.location : 16
-  const spacesToFill = end - noteOne.location
-  let noteType;
-  switch (spacesToFill) {
-    case 16:
-      noteType = 'whole'
-      break;
-    case 15:
-      noteType = 'half'
-      addClass('dotted', noteOne.dom)
-      // tied to dotted eigth
-      break
-    case 14:
-      noteType = 'half'
-      addClass('dotted', noteOne.dom)
-      // tied to eigth
-      break;
-    case 13:
-      noteType = 'half'
-      addClass('dotted', noteOne.dom)
-      //tied to a sixteenth
-      break
-    case 12:
-      noteType = 'half'
-      addClass('dotted', noteOne.dom)
-      break
-    case 11:
-      noteType = 'half'
-      //tied to dotted eigth
-      break
-    case 10:
-      noteType = 'half'
-      // tied to eigth
-      break
-    case 9:
-      noteType = 'half'
-      // tied to sixteenth
-      break;
-    case 8:
-      noteType = 'half'
-      break
-    case 7:
-      noteType = 'half'
-      addClass('dotted', noteOne.dom)
-      // tied to a sixteenth
-      break
-    case 6:
-      noteType = 'quarter'
-      addClass('dotted', noteOne.dom)
-      break
-    case 5:
-      noteType = 'quarter'
-      //tied to a sixteenth
-      break
-    case 4:
-      noteType = 'quarter'
-      break;
-    case 3:
-      noteType = 'eight'
-      addClass('dotted', noteOne.dom)
-      if (noteTwo) {
-        let prevNote = getPreviousNote(noteOne)
-        console.log(prevNote)
-        if (prevNote) {
-          handleBridging(noteOne, prevNote)
+function updateRelationships(staff) {
+  const notes = staff.notes
+  const bar = beatEvery * 4
+  for (let i = notes.length - 1; i >= 0; i--) {
+    const note = notes[i]
+    const noteAfter = notes[i + 1]
+    const prevNote = notes[i - 1]
+    let spacesToFill;
+    let sameLocation;
+    let sameType;
+    if (noteAfter) {
+      spacesToFill = noteAfter.location
+      sameLocation = note.location === noteAfter.location
+      sameType = note.type === noteAfter.type
+    } else spacesToFill = 17
+    if (sameLocation) {
+      console.log(sameLocation)
+      note.type = noteAfter.type
+    } else {
+      note.type = calculateSpaces(spacesToFill - note.location)
+      console.log(note.type)
+    }
+    if (prevNote && bridgable(note, prevNote)) {
+      let existingBridge = prevNote.bridge;
+      if (existingBridge) {
+        existingBridge.notes.push(note)
+      } else {
+        newBridge = bridges[prevNote.name] = {
+          notes: [prevNote, note]
         }
+        prevNote.bridge = newBridge;
+        note.bridge = newBridge;
       }
-      break
-    case 2:
-      noteType = 'eigth'
-      if (noteTwo) {
-        let prevNote = getPreviousNote(noteOne)
-        console.log(prevNote)
-        if (prevNote) {
-          handleBridging(noteOne, prevNote)
-        }
-      }
-      break
-    case 1:
-      noteType = 'sixteenth'
-      if (noteTwo) {
-        let prevNote = getPreviousNote(noteOne)
-        console.log(prevNote)
-        if (prevNote) {
-          handleBridging(noteOne, prevNote)
-        }
-      }
-      break
+
+    }
+    console.log(note.location)
   }
-  setAttributes(noteOne.dom, {
-    'data-type': noteType
-  })
-  return noteType
+
+  //detirmine 
+  // distance from next note
+
+}
+
+function calculateSpaces(spaces) {
+  // console.log(spaces)
+  //perfect
+  if (spaceConverter[spaces]) return [spaceConverter[spaces], false]
+  //dotted
+  const closestSpace = findClosestSpace(spaces)
+  const mainNote = spaceConverter[closestSpace]
+  const isDotNote = closestSpace + (closestSpace / 2) === spaces
+  if (isDotNote) return [mainNote, isDotNote]
+  //tied
+  const tiedNote = calculateSpaces(spaces - closestSpace)
+  return [mainNote, isDotNote, tiedNote]
+}
+
+
+function findClosestSpace(n) {
+  //finds nearest power of 2
+  return 1 << 31 - Math.clz32(n);
 }

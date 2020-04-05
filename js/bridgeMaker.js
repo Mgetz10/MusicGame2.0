@@ -168,10 +168,9 @@ function getStemCoords(note) {
 
 function bridgable(note, prevNote) {
   const validNoteType = note.type === 'eigth' || note.type === 'sixteenth'
-  const firstNote = staff.notes.length <= 1
   const sameNoteType = note.type === prevNote.type
-  console.log(note.type, prevNote.type)
-  return validNoteType && !firstNote && sameNoteType
+  // const bridgeFull = prevNote.bridge.length(
+  return validNoteType && sameNoteType
 }
 
 function createBridgeLine(width, type) {

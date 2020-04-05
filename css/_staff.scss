@@ -129,7 +129,7 @@ $staff-non-border-padding: $staff-line-border-width;
           }
         }
 
-        &.dotted {
+        &[data-dotted="true"] {
           .note-body::after {
             content: '';
             width: 0.3rem;

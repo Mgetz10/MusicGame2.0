@@ -10,6 +10,7 @@ var synthA = new Tone.PolySynth(6, Tone.Synth, {
   }
 })
 synthA.portamento = 0.05
+synthA.context.latencyHint = 'fastest'
 this.synthA.volume.value = -12;
 synthA.toMaster();
 

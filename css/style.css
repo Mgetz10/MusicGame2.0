@@ -203,7 +203,7 @@ body {
   margin-top: -0.4rem;
 }
 
-.staff .bar .staff-line .note.dotted .note-body::after {
+.staff .bar .staff-line .note[data-dotted="true"] .note-body::after {
   content: '';
   width: 0.3rem;
   height: 0.3rem;
@@ -213,7 +213,7 @@ body {
   border-radius: 101%;
 }
 
-.staff .bar .staff-line .note.dotted .note-body .stem {
+.staff .bar .staff-line .note[data-dotted="true"] .note-body .stem {
   margin-right: 0.1rem;
 }
 

@@ -2,9 +2,10 @@
 
 function noteOn(note) {
   note.playing = true
+  const time = Date.now()
   playNote(note.name);
   // worker.postMessage(JSON.stringify(note))
-  placeOnStaff(note, 'sixteenth');
+  placeOnStaff(note, 'sixteenth', time);
   if (!note.onKeyboard) {
     console.warn('keyboard range not yet coded')
     return
